@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        if(isAuthenticated()){
+            navigateToFeed()
+        }
         binding.btnLogin.setOnClickListener {
             toAutch()
         }
@@ -45,6 +48,7 @@ class MainActivity : AppCompatActivity() {
                     try {
                         val response = App.repository.authenticate(AuthRequest(login, password))
                         if (response.body()?.success.equals("true")) {
+                            response.body()?.response?.token?.let { setUserAuth(it) }
                             navigateToFeed()
                         } else {
                             Toast.makeText(
