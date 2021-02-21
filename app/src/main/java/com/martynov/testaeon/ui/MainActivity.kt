@@ -5,6 +5,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.lifecycleScope
 import com.martynov.testaeon.API_SHARED_FILE
 import com.martynov.testaeon.AUTHENTICATED_SHARED_KEY
@@ -24,6 +25,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
         if(isAuthenticated()){
             navigateToFeed()
         }

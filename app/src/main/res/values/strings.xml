@@ -3,4 +3,8 @@
     <string name="login_btn">ВОЙТИ</string>
     <string name="login_hint">Введите логин</string>
     <string name="password_hint">Введите пароль</string>
+    <string name="amount">Колличество</string>
+    <string name="currency">Валюта</string>
+    <string name="payment_date">Дата платежа</string>
+    <string name="exit">Выход</string>
 </resources>
