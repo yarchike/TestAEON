@@ -6,7 +6,7 @@ import com.martynov.testaeon.dto.AuthResponse
 import com.martynov.testaeon.dto.PaymentsResponse
 import retrofit2.Response
 
-class NetworkRepository(private val api: API): Repository {
+class NetworkRepository(private val api: API) : Repository {
     override suspend fun authenticate(authRequestParams: AuthRequest): Response<AuthResponse> {
         return api.authenticate(authRequestParams)
     }

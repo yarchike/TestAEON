@@ -1,23 +1,20 @@
 package com.martynov.testaeon.ui
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.martynov.testaeon.API_SHARED_FILE
-import com.martynov.testaeon.AUTHENTICATED_SHARED_KEY
-import com.martynov.testaeon.App
-import com.martynov.testaeon.R
+import com.martynov.testaeon.*
 import com.martynov.testaeon.adapter.PaymentsAdapter
 import com.martynov.testaeon.databinding.ActivityFeedBinding
-import com.martynov.testaeon.databinding.ActivityMainBinding
 import com.martynov.testaeon.dto.Payments
+import com.martynov.testaeon.fragment.FragmentPayments
 import kotlinx.coroutines.launch
 
 class FeedActivity : AppCompatActivity() {
@@ -32,7 +29,7 @@ class FeedActivity : AppCompatActivity() {
         setContentView(binding.root)
         setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
         loadPay()
-        binding.swipeContainer.setOnRefreshListener{
+        binding.swipeContainer.setOnRefreshListener {
             loadPay()
 
 
@@ -63,14 +60,13 @@ class FeedActivity : AppCompatActivity() {
     }
 
     private fun loadPay() {
-        var items1 = items
         val token = getToken()
         lifecycleScope.launch {
             val result = token?.let { App.repository.getPayments(it) }
-            items1 = result?.body()?.response!!
+            items = result?.body()?.response!!
             with(binding.container) {
                 layoutManager = LinearLayoutManager(this@FeedActivity)
-                adapter = PaymentsAdapter(items1)
+                adapter = PaymentsAdapter(items, ::onItemClick)
                 binding.swipeContainer.isRefreshing = false
             }
         }
@@ -79,4 +75,24 @@ class FeedActivity : AppCompatActivity() {
     private fun getToken(): String? =
             getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE).getString(
                     AUTHENTICATED_SHARED_KEY, "")
+
+    fun onItemClick(position: Int) {
+        val item = items.get(position)
+        val bundle = Bundle()
+        bundle.putString(
+                "desc", item.desc
+        )
+        bundle.putString(
+                "amount", item.amount.toString()
+        )
+        bundle.putString("currency", item.currency)
+        bundle.putString("created", convecrDateToString(item.created))
+
+        val frt: FragmentTransaction = supportFragmentManager.beginTransaction()
+        val fragment: FragmentPayments = FragmentPayments()
+        fragment.arguments = bundle
+        frt.addToBackStack(null)
+        frt.add(R.id.itemFragmentPayments, fragment)
+        frt.commit()
+    }
 }

@@ -26,7 +26,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(findViewById<Toolbar>(R.id.toolbar))
-        if(isAuthenticated()){
+        if (isAuthenticated()) {
             navigateToFeed()
         }
         binding.btnLogin.setOnClickListener {
@@ -54,16 +54,16 @@ class MainActivity : AppCompatActivity() {
                             navigateToFeed()
                         } else {
                             Toast.makeText(
-                                this@MainActivity,
-                                "Неверный логин или пароль",
-                                Toast.LENGTH_SHORT
+                                    this@MainActivity,
+                                    "Неверный логин или пароль",
+                                    Toast.LENGTH_SHORT
                             ).show()
                         }
                     } catch (e: IOException) {
                         Toast.makeText(
-                            this@MainActivity,
-                            "Ошибка соединения с сервером",
-                            Toast.LENGTH_SHORT
+                                this@MainActivity,
+                                "Ошибка соединения с сервером",
+                                Toast.LENGTH_SHORT
                         ).show()
                     }
 
@@ -74,15 +74,15 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setUserAuth(token: String) =
-        getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE)
-            .edit()
-            .putString(AUTHENTICATED_SHARED_KEY, token)
-            .apply()
+            getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE)
+                    .edit()
+                    .putString(AUTHENTICATED_SHARED_KEY, token)
+                    .apply()
 
     private fun isAuthenticated(): Boolean =
-        getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE).getString(
-            AUTHENTICATED_SHARED_KEY, ""
-        )?.isNotEmpty() ?: false
+            getSharedPreferences(API_SHARED_FILE, Context.MODE_PRIVATE).getString(
+                    AUTHENTICATED_SHARED_KEY, ""
+            )?.isNotEmpty() ?: false
 
     private fun navigateToFeed() {
         val intent = Intent(this@MainActivity, FeedActivity::class.java)

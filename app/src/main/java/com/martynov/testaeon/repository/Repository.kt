@@ -4,7 +4,6 @@ import com.martynov.testaeon.dto.AuthRequest
 import com.martynov.testaeon.dto.AuthResponse
 import com.martynov.testaeon.dto.PaymentsResponse
 import retrofit2.Response
-import retrofit2.http.Path
 
 interface Repository {
     suspend fun authenticate(authRequestParams: AuthRequest): Response<AuthResponse>

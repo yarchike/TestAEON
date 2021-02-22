@@ -7,4 +7,7 @@
     <string name="currency">Валюта</string>
     <string name="payment_date">Дата платежа</string>
     <string name="exit">Выход</string>
+    <string name="no_data">Нет данных</string>
+    <string name="operation">Операция</string>
+    <string name="more_details">Подробнее</string>
 </resources>
